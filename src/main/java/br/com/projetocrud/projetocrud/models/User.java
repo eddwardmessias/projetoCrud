@@ -1,5 +1,7 @@
 package br.com.projetocrud.projetocrud.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ public class User {
     private String phone;
     private String password;
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>(); //Duvida
 

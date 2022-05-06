@@ -1,7 +1,12 @@
 package br.com.projetocrud.projetocrud.models;
 
+import br.com.projetocrud.projetocrud.models.enums.OrdersStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_order")
@@ -10,18 +15,22 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant moment;
+    private LocalDateTime moment;
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private User client;
 
+    private Integer ordersStatus;
+
     public Order() {
     }
 
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, LocalDateTime moment, User client, OrdersStatus ordersStatus) {
         this.id = id;
         this.moment = moment;
         this.client = client;
+        setOrdersStatus(ordersStatus);
     }
 
     public Long getId() {
@@ -32,11 +41,11 @@ public class Order {
         this.id = id;
     }
 
-    public Instant getMoment() {
+    public LocalDateTime getMoment() {
         return moment;
     }
 
-    public void setMoment(Instant moment) {
+    public void setMoment(LocalDateTime moment) {
         this.moment = moment;
     }
 
@@ -44,5 +53,15 @@ public class Order {
         return client;
     }
 
+    public void setClient(User client) {
+        this.client = client;
+    }
 
+    public OrdersStatus getOrdersStatus() throws IllegalAccessException {
+        return OrdersStatus.valueOf(ordersStatus);
+    }
+
+    public void setOrdersStatus(OrdersStatus ordersStatus) {
+        this.ordersStatus = ordersStatus.getCode();
+    }
 }
